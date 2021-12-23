@@ -7,6 +7,7 @@ namespace Task_Tracker.Services
     public class TaskService
     {
         public static List<Task> Tasks_list = Project.Task_list;
+        public static Task? Get(int id) => Tasks_list.FirstOrDefault(p => p.Id == id);
 
         //GET
         public static List<Task> GetAll()
@@ -21,25 +22,24 @@ namespace Task_Tracker.Services
 
         }
 
-        //Delete Task
-        //public static void Delete(int id)
-        //{
-        //    var task = Get(id);
-        //    if (task is null)
-        //        return;
+        //DELETE  Task
+        public static void Delete(int id)
+        {
+            var task = Get(id);
+            if (task is null)
+                return;
 
-        //    Tasks.Remove(task);
-        //}
+            Tasks_list.Remove(task);
+        }
 
-        //Update Task
-        //public void Update(Task task)
-        //{
-        //    var index = Tasks.FindIndex(p => p.Id == task.Id);
-        //    if (index == -1)
-        //        return;
+        //PUT (UPDATE Task)
+        public static void Update(Task task)
+        {
+            var index = Tasks_list.FindIndex(p => p.Id == task.Id);
+            if (index == -1)
+                return;
 
-        //    Tasks[index] = task;
-        //}
-
+            Tasks_list[index] = task;
+        }
     }
 }

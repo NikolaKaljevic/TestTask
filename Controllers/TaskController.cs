@@ -15,17 +15,17 @@ namespace Task_Tracker.Controllers
         }
 
 
-        //// GET by Id action
-        //[HttpGet("{id}")]
-        //public ActionResult<Task> Get(int id)
-        //{ 
-        //    var task = TaskService.Get(id);
+        // GET by Id action
+        [HttpGet("{id}")]
+        public ActionResult<Task> Get(int id)
+        {
+            var task = TaskService.Get(id);
 
-        //    if (task == null)
-        //        return NotFound();
+            if (task == null)
+                return NotFound();
 
-        //    return task;
-        //}
+            return task;
+        }
 
         // POST action
         [HttpPost]
@@ -35,34 +35,34 @@ namespace Task_Tracker.Controllers
             return CreatedAtAction(nameof(Create), new { id = task.Id }, task);
         }
 
-        //// PUT action
-        //[HttpPut("{id}")]
-        //public IActionResult Update(int id, Task task)
-        //{
-        //    if (id != task.Id)
-        //    return BadRequest();
+        // PUT action
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Task task)
+        {
+            if (id != task.Id)
+                return BadRequest();
 
-        //    var currentTask = TaskService.Get(id);
-        //    if(currentTask is null)
-        //        return NotFound();
+            var currentTask = TaskService.Get(id);
+            if (currentTask is null)
+                return NotFound();
 
-        //    TaskService.Update(task);           
+            TaskService.Update(task);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
-        //// DELETE action
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(int id)
-        //{
-        //    var task = TaskService.Get(id);
+        // DELETE action
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var task = TaskService.Get(id);
 
-        //    if (task is null)
-        //    return NotFound();
+            if (task is null)
+                return NotFound();
 
-        //    TaskService.Delete(id);
+            TaskService.Delete(id);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
     }
 }

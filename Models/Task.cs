@@ -15,19 +15,19 @@ namespace Task_Tracker.Models;
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        //public string Description { get; set; }
+        public string Description { get; set; }
         
-        //public Status _status;
+        public Status _status;
 
-        //public Task_Priority _priority;
+        public Task_Priority _priority;
         
-        //// Task constructor
-        //public Task(int id, string name, string description, Status status, Task_Priority priority) 
-        //{
-        //    Id = ++id;
-        //    Name = name;
-        //    Description = description;
-        //    _status = status;
-        //    _priority = priority;
-        //}
+        // Task constructor
+        public Task(int id, string name, string description, Status status, Task_Priority priority) 
+        {
+            Id = ++id;
+            Name = name;
+            Description = description;
+            _status = status;
+            _priority = priority;
+        }
     }
