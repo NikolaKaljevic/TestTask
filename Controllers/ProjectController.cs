@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Task_Tracker.Models;
+using Task_Tracker.Models.DataAccess;
 using Task_Tracker.Services;
 
 namespace Task_Tracker.Controllers
@@ -8,6 +9,7 @@ namespace Task_Tracker.Controllers
     [Route("api/[controller]")]
     public class ProjectController : ControllerBase
     {
+
         //GET
         [HttpGet]
         public ActionResult<List<Project>> GetAll()

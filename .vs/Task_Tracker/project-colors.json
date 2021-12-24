@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "f7139dfa-3226-4b5f-a006-792f836ae408": {
+      "ProjectGuid": "f7139dfa-3226-4b5f-a006-792f836ae408",
+      "DisplayName": "Task_Tracker",
+      "ColorIndex": 0
+    },
+    "fa0634b5-8c2e-46f2-8c35-dbc65eabaa9b": {
+      "ProjectGuid": "fa0634b5-8c2e-46f2-8c35-dbc65eabaa9b",
+      "DisplayName": "Task_Tracker_",
+      "ColorIndex": 1
+    },
+    "773c28d9-cf86-46c7-b55a-e2a48a3a3f1a": {
+      "ProjectGuid": "773c28d9-cf86-46c7-b55a-e2a48a3a3f1a",
+      "DisplayName": "Task_Tracker",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}

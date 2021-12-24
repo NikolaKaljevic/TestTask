@@ -5,8 +5,8 @@ namespace Task_Tracker.Services;
 
     public static class ProjectService
     {
-        public static List<Project> Project_list = new List<Project>() { new Project(1, "Release", DateTime.Now, null, Current_status.Not_started, Priority.High),
-                                                                         new Project(2, "Release_2", DateTime.Today, null, Current_status.Active, Priority.High)};
+        public static List<Project> Project_list = new List<Project>() { new Project("Release_1", DateTime.Now, null, Current_status.Not_started, Priority.High),
+                                                                         new Project("Release_2", DateTime.Today, null, Current_status.Active, Priority.High)};
 
         public static Project? Get(int id) => Project_list.FirstOrDefault(p => p.Id == id);
 

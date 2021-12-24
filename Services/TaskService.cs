@@ -4,7 +4,7 @@ using Task_Tracker.Services;
 
 namespace Task_Tracker.Services
 {
-    public class TaskService
+    public static class TaskService
     {
         public static List<Task> Tasks_list = Project.Task_list;
         public static Task? Get(int id) => Tasks_list.FirstOrDefault(p => p.Id == id);

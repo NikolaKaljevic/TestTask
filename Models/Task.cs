@@ -13,6 +13,7 @@ namespace Task_Tracker.Models;
     }
     public class Task
     {
+        private static int next_task = 0;
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -20,11 +21,13 @@ namespace Task_Tracker.Models;
         public Status _status;
 
         public Task_Priority _priority;
-        
-        // Task constructor
-        public Task(int id, string name, string description, Status status, Task_Priority priority) 
+
+
+        // Task constructors
+        public Task() { }
+        public Task(string name, string description, Status status, Task_Priority priority) 
         {
-            Id = ++id;
+            Id = ++next_task;
             Name = name;
             Description = description;
             _status = status;
