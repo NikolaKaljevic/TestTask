@@ -7,5 +7,6 @@ namespace Task_Tracker.Models.DataAccess
         public DataContext(DbContextOptions<DataContext> options) : base(options) {}
 
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Task> Tasks { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Task_Tracker.Models;
 using Task_Tracker.Models.DataAccess;
-using Task_Tracker.Services;
 
 namespace Task_Tracker.Controllers
 {
@@ -9,62 +8,72 @@ namespace Task_Tracker.Controllers
     [Route("api/[controller]")]
     public class ProjectController : ControllerBase
     {
-
-        //GET
-        [HttpGet]
-        public ActionResult<List<Project>> GetAll()
+        // Dependency injection
+        private readonly DataContext _context;
+        public ProjectController(DataContext context)
         {
-            return ProjectService.GetAll();
+            _context = context;
+        }
+
+        //GET all projects
+        [HttpGet]
+        public async Task<ActionResult<List<Project>>> GetAll()
+        {
+            return Ok(await _context.Projects.ToListAsync());
         }
 
         // GET project by Id
         [HttpGet("{id}")]
-        public ActionResult<Project> Get(int id)
+        public async Task<ActionResult<Project>> Get(int id)
         {
-            var project = ProjectService.Get(id);
+            var project = await _context.Projects.FindAsync(id);
 
             if (project == null)
-                return NotFound();
+                return NotFound("Project not found.");
 
-            return project;
+            return Ok(project);
         }
 
-        // POST
+        // POST    (create project)
         [HttpPost]
-        public IActionResult Create(Project project)
+        public async Task<ActionResult<List<Project>>> Create(Project project)
         {
-            ProjectService.Add(project);
-            return CreatedAtAction(nameof(Create), new { id = project.Id }, project);
+            _context.Projects.Add(project);
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Projects.ToListAsync());
         }
 
-        // PUT
+        //PUT    (update project)
         [HttpPut("{id}")]
-        public IActionResult Update(int id, Project project)
+        public async Task<ActionResult<List<Project>>> Update(Project request)
         {
-            if (id != project.Id)
-                return BadRequest();
+            var dbProject = await _context.Projects.FindAsync(request.Id);
+            if (dbProject == null)
+                return BadRequest("Project not found.");
 
-            var currentTask = ProjectService.Get(id);
-            if (currentTask is null)
-                return NotFound();
+            dbProject.Name = request.Name;
+            dbProject.Start_date = request.Start_date;
+            dbProject.Completion_date = request.Completion_date;
+            dbProject.currentStatus = request.currentStatus;
+            dbProject.priority = request.priority;
 
-            ProjectService.Update(project);
-
-            return NoContent();
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Projects.ToListAsync());
         }
 
-        // DELETE action
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        //DELETE action
+       [HttpDelete("{id}")]
+        public async Task<ActionResult<List<Project>>> Delete(int id)
         {
-            var project = ProjectService.Get(id);
+            var dbProject = await _context.Projects.FindAsync(id);
 
-            if (project is null)
-                return NotFound();
+            if (dbProject == null)
+                return NotFound("Project not found.");
 
-            ProjectService.Delete(id);
+            _context.Projects.Remove(dbProject);
+            await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(await _context.Projects.ToListAsync());
         }
     }
 }

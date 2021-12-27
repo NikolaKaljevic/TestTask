@@ -1,7 +1,6 @@
-global using Task_Tracker.Services;
+global using Task_Tracker.Models.DataAccess;
 global using Microsoft.EntityFrameworkCore;
 using System;
-using Task_Tracker.Models.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 

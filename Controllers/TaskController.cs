@@ -1,68 +1,75 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Task = Task_Tracker.Models.Task;
-using TaskService = Task_Tracker.Services.TaskService;
 namespace Task_Tracker.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class TaskController : ControllerBase
     {
+        private readonly DataContext _context;
+        public TaskController(DataContext context)
+        {
+            _context = context;
+        }
+
         // GET all Tasks
         [HttpGet]
-        public ActionResult<List<Task>> GetAll()
+        public async Task<ActionResult<List<Task>>> GetAll()
         {
-            return TaskService.GetAll();
+            return Ok(await _context.Tasks.ToListAsync());
         }
 
-
-        // GET by Id action
+        // GET Task by Id 
         [HttpGet("{id}")]
-        public ActionResult<Task> Get(int id)
+        public async Task<ActionResult<Task>> Get(int id)
         {
-            var task = TaskService.Get(id);
+            var task = await _context.Tasks.FindAsync(id);
 
             if (task == null)
-                return NotFound();
+                return NotFound("Task not found.");
 
-            return task;
+            return Ok(task);
         }
 
-        // POST action
+        // POST (create task)
         [HttpPost]
-        public IActionResult Create(Task task)
+        public async Task<ActionResult<List<Task>>> Create(Task task)
         {
-            TaskService.Add(task);
-            return CreatedAtAction(nameof(Create), new { id = task.Id }, task);
+            _context.Tasks.Add(task);
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Tasks.ToListAsync());
         }
 
-        // PUT action
+        // PUT (update task)
         [HttpPut("{id}")]
-        public IActionResult Update(int id, Task task)
+        public async Task<ActionResult<List<Task>>> Update(Task request)
         {
-            if (id != task.Id)
-                return BadRequest();
+            var dbTask = await _context.Tasks.FindAsync(request.Id);
+            if (dbTask == null)
+                return BadRequest("Task not found.");
 
-            var currentTask = TaskService.Get(id);
-            if (currentTask is null)
-                return NotFound();
+            dbTask.Name = request.Name;
+            dbTask.Description = request.Description;
+            dbTask._status = request._status;
+            dbTask._priority = request._priority;
 
-            TaskService.Update(task);
-
-            return NoContent();
+            await _context.SaveChangesAsync();
+            return Ok(await _context.Tasks.ToListAsync());
         }
 
-        // DELETE action
+        // DELETE task by id
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<ActionResult<List<Task>>> Delete(int id)
         {
-            var task = TaskService.Get(id);
+            var dbTask = await _context.Tasks.FindAsync(id);
 
-            if (task is null)
-                return NotFound();
+            if (dbTask == null)
+                return NotFound("Task not found.");
 
-            TaskService.Delete(id);
+            _context.Tasks.Remove(dbTask);
+            await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(await _context.Tasks.ToListAsync());
         }
     }
 }
